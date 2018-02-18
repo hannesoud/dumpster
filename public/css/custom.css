@@ -1,0 +1,125 @@
+.full-height {
+    height: 100vh;
+}
+
+.flex-center {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.position-ref {
+    position: relative;
+}
+
+.top-right {
+    position: absolute;
+    right: 10px;
+    top: 18px;
+}
+
+.content {
+    text-align: center;
+}
+
+.title {
+    font-size: 84px;
+}
+
+.links > a {
+    color: #636b6f;
+    padding: 0 25px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .1rem;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+.m-b-md {
+    margin-bottom: 30px;
+}
+
+.m-t-md {
+    margin-top: 50px;
+}
+
+/*Header*/
+.navbar {
+    background: #029f1a;
+}
+
+.container > .navbar-header {
+    height: 128px;
+}
+
+.img_logo {
+    width: 100px;
+    height: auto;
+}
+
+.navbar .navbar-nav > li > a {
+    color: white;
+    line-height: 120px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.navbar .navbar-nav > li > a:hover {
+    color: #ffa500;
+    background: transparent;
+}
+
+.navbar .navbar-nav > .active > a, .navbar .navbar-nav > .active > a:hover, .navbar .navbar-nav > .active > a:focus {
+    font-weight: bold;
+    background: transparent;
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+    color: #ffa500;
+}
+
+/*Footer*/
+footer {
+    background-color: #029f1a;
+    padding: 20px;
+}
+
+footer a {
+    color: white;
+}
+
+footer a:hover {
+    color: #ffa500;
+}
+
+.copyright {
+    color: white;
+}
+
+.fixed-bottom {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+/*Form*/
+@media (min-width: 768px) {
+    .form-horizontal .control-label {
+        text-align: left;
+    }
+}
+
+.panel-body{
+    padding: 15px 30px;
+}
+
+/*Button*/
+.btn-primary {
+    background-color: #028815;
+}
+
+.form-group:last-child{
+    margin-bottom:0;
+}
