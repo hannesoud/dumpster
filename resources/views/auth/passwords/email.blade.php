@@ -1,11 +1,13 @@
 @extends('layouts.app')
-
+@section('title')
+    Forgot Password
+@endsection
 @section('content')
 <div class="container">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Reset Password</div>
+                <div class="panel-heading">Restore Password</div>
 
                 <div class="panel-body">
                     @if (session('status'))
@@ -34,7 +36,7 @@
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
-                                    Send Password Reset Link
+                                    Restore Password
                                 </button>
                             </div>
                         </div>

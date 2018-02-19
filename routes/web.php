@@ -18,11 +18,29 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/support', 'HomeController@pageSupport')->name('support');
-Route::get('/terms-and-conditions', 'HomeController@pageTermsCondition')->name('terms-and-conditions');
-Route::get('/privacy-policy', 'HomeController@pagePrivacyPolicy')->name('privacy-policy');
-Route::get('/containers', 'HomeController@showContainers')->name('containers');
-Route::get('/profile', 'HomeController@showProfile')->name('profile');
+Route::get('/support', 'PageController@pageSupport')->name('support');
+Route::get('/terms-and-conditions', 'PageController@pageTermsCondition')->name('terms-and-conditions');
+Route::get('/privacy-policy', 'PageController@pagePrivacyPolicy')->name('privacy-policy');
 
-Route::get('/create_company', 'HomeController@showCreateCompanyPage')->name('profile');
+Route::get('/profile', 'HomeController@showProfile')->name('profile');
+Route::post('/update_profile', 'HomeController@updateProfileSubmit');
+
+Route::get('/change_password', 'HomeController@showChangePasswordForm');
+Route::post('/changePassword','HomeController@changePassword')->name('changePassword');
+
+
+Route::get('/companies', 'HomeController@companies')->name('companies');
+Route::get('/create_company', 'HomeController@showCreateCompanyPage');
 Route::post('/create_company_submit', 'HomeController@submitCreateCompany');
+Route::get('/edit_company/{company_id}', 'HomeController@showEditCompanyPage');
+Route::post('/edit_company_submit', 'HomeController@submitEditCompany');
+Route::get('/remove_company/{company_id}', 'HomeController@removeCompany');
+
+Route::get('/containers', 'HomeController@showContainersPage')->name('containers');
+Route::get('/add_container/{container_id}', 'HomeController@showAddContainerPage');
+Route::post('/add_container_submit', 'HomeController@addContainerSubmit');
+Route::get('/edit_container/{company_id}/{container_id}', 'HomeController@showEditContainerPage');
+Route::post('/edit_container_submit', 'HomeController@editContainerSubmit');
+Route::get('/remove_container/{company_id}/{container_id}', 'HomeController@removeContainer');
+Route::get('/show_container/{company_id}/{container_id}', 'HomeController@showContainer');
+Route::get('/hide_container/{company_id}/{container_id}', 'HomeController@hideContainer');

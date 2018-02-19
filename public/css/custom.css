@@ -2,6 +2,9 @@
     height: 100vh;
 }
 
+#app{
+    margin-bottom:100px;
+}
 .flex-center {
     align-items: center;
     display: flex;
@@ -42,6 +45,10 @@
 
 .m-t-md {
     margin-top: 50px;
+}
+
+.m-t-sm {
+    margin-top: 20px;
 }
 
 /*Header*/
@@ -122,4 +129,12 @@ footer a:hover {
 
 .form-group:last-child{
     margin-bottom:0;
+}
+
+/*Containers Page*/
+table.text-center th{text-align: center;}
+.tb_ct_img{
+    max-width: 200px;
+    text-align: center;
+    margin: 0 auto;
 }

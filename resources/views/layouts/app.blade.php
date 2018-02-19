@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title>{{ config('app.name', 'Dumpster') }} - @yield('title')</title>
 
     <!-- Styles -->
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
@@ -39,21 +39,25 @@
 
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
 
-                @unless (Auth::guest())
-                <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    &nbsp;<li class="active"><a href="{{ url('/home') }}">Home</a></li>
-                    &nbsp;<li><a href="{{ url('/containers') }}">Containers</a></li>
-                    &nbsp;<li><a href="{{ url('/profile') }}">Profile</a></li>
+
+                    <!-- Left Side Of Navbar -->&nbsp;
+                    <li class="active"><a href="{{ url('/') }}">Home</a></li>
+                    @unless (Auth::guest())
+                        <li><a href="{{ url('/companies') }}">Companies</a></li>
+                        <li><a href="{{ url('/containers') }}">Containers</a></li>
+
+                    @endunless
                 </ul>
-                @endif
 
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
                     @if (Auth::guest())
-                        <li><a href="{{ route('login') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-                        <li><a href="{{ route('register') }}"><span class="glyphicon glyphicon-user"></span> Register</a></li>
+                        <li><a href="{{ route('login') }}"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+                        </li>
+                        <li><a href="{{ route('register') }}"><span class="glyphicon glyphicon-user"></span>
+                                Register</a></li>
                     @else
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
@@ -62,13 +66,21 @@
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
+                                <li><a href="{{ url('/profile') }}"><span class="glyphicon glyphicon-user"></span>
+                                        Profile</a>
+                                </li>
+
+                                <li><a href="{{ url('/change_password') }}"><span
+                                                class="glyphicon glyphicon-lock"></span>
+                                        Change Password</a>
+                                </li>
+
                                 <li>
                                     <a href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        Logout
+                                        <span class="glyphicon glyphicon-log-out"></span> Logout
                                     </a>
-
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                           style="display: none;">
                                         {{ csrf_field() }}

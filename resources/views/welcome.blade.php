@@ -37,7 +37,11 @@
             <div class="collapse navbar-collapse" id="app-navbar-collapse">
                 <!-- Left Side Of Navbar -->
                 <ul class="nav navbar-nav">
-                    &nbsp;
+                    <li class="active"><a href="{{ url('/') }}">Home</a></li>
+                    @unless (Auth::guest())
+                        <li><a href="{{ url('/companies') }}">Companies</a></li>
+                        <li><a href="{{ url('/containers') }}">Containers</a></li>
+                    @endunless
                 </ul>
 
                 <!-- Right Side Of Navbar -->
@@ -46,7 +50,8 @@
                     @if (Auth::guest())
                         <li><a href="{{ url('/login') }}"><span class="glyphicon glyphicon-user"></span> Login</a>
                         </li>
-                        <li><a href="{{ url('/register') }}"><span class="glyphicon glyphicon-log-in"></span> Register</a>
+                        <li><a href="{{ url('/register') }}"><span class="glyphicon glyphicon-log-in"></span>
+                                Register</a>
                         </li>
                     @else
                         <li class="dropdown">
@@ -56,11 +61,18 @@
                             </a>
 
                             <ul class="dropdown-menu" role="menu">
+                                <li><a href="{{ url('/profile') }}"><span class="glyphicon glyphicon-user"></span>
+                                        Profile</a>
+                                </li>
+                                <li><a href="{{ url('/change_password') }}"><span
+                                                class="glyphicon glyphicon-lock"></span>
+                                        Change Password</a>
+                                </li>
                                 <li>
                                     <a href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        Logout
+                                        <span class="glyphicon glyphicon-log-out"></span> Logout
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST"
