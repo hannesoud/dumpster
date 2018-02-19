@@ -15,7 +15,7 @@ class Company extends Model
         'code',
         'avatar_id',
         'license_number',
-        'details',
+        'description',
         'address',
         'phone',
         'status',
@@ -23,6 +23,7 @@ class Company extends Model
         'email',
         'password',
         'user_id',
+        'reason',
     ];
 
     protected $hidden = [

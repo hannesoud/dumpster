@@ -9,7 +9,7 @@ class CompanyImage extends Model
     //
     protected $table="images";
 
-    protected $fillable=['filename'];
+    protected $fillable=['filename', 'user_id'];
 
     public $timestamps = false;
 }

@@ -134,7 +134,7 @@ class HomeController extends Controller
 
             if ($upload_result) {
                 $new_file_name = $upload_result['filename'];
-                $c_image = CompanyImage::create(['filename' => $new_file_name]);
+                $c_image = CompanyImage::create(['filename' => $new_file_name, 'user_id'=>$user_id]);
                 $c_image_id = $c_image->id;
             }
         }
@@ -201,7 +201,7 @@ class HomeController extends Controller
 
             if ($upload_result) {
                 $new_file_name = $upload_result['filename'];
-                $c_image = CompanyImage::create(['filename' => $new_file_name]);
+                $c_image = CompanyImage::create(['filename' => $new_file_name, 'user_id'=>$user_id]);
                 $c_image_id = $c_image->id;
                 $data = array_add($data, 'avatar_id', $c_image_id);
             }
@@ -293,7 +293,7 @@ class HomeController extends Controller
 
             if ($upload_result) {
                 $new_file_name = $upload_result['filename'];
-                $c_image = CompanyImage::create(['filename' => $new_file_name]);
+                $c_image = CompanyImage::create(['filename' => $new_file_name, 'user_id'=>$user_id]);
                 $ct_image_id = $c_image->id;
             }
         }
@@ -329,6 +329,8 @@ class HomeController extends Controller
 
     public function editContainerSubmit(UpdateContainerPost $request)
     {
+        $user_id = Auth::id();
+
         $data = $request->except('token');
         $container_id = $data['container_id'];
         $container = Container::find($container_id);
@@ -348,7 +350,7 @@ class HomeController extends Controller
 
             if ($upload_result) {
                 $new_file_name = $upload_result['filename'];
-                $c_image = CompanyImage::create(['filename' => $new_file_name]);
+                $c_image = CompanyImage::create(['filename' => $new_file_name, 'user_id'=>$user_id]);
                 $ct_image_id = $c_image->id;
                 $data = array_add($data, 'image_id', $ct_image_id);
             }

@@ -66,15 +66,15 @@
                                 </div>
                             </div>
 
-                            <div class="form-group{{ $errors->has('details') ? ' has-error' : '' }}">
-                                <label for="details" class="col-md-4 control-label">Details</label>
+                            <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
+                                <label for="description" class="col-md-4 control-label">Description</label>
 
                                 <div class="col-md-8">
-                                    <input id="details" type="text" class="form-control" name="details"
-                                           value="{{ old('details') }}" required>
+                                    <input id="description" type="text" class="form-control" name="description"
+                                           value="{{ old('description') }}" required>
 
-                                    @if ($errors->has('details'))
-                                        <span class="help-block"><strong>{{ $errors->first('details') }}</strong></span>
+                                    @if ($errors->has('description'))
+                                        <span class="help-block"><strong>{{ $errors->first('description') }}</strong></span>
                                     @endif
                                 </div>
                             </div>
