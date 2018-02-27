@@ -25,14 +25,12 @@ class UpdateCompanyPost extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'web_site' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
+            'web_site' => 'nullable|url|max:255',
             'license_number' => 'required|string|max:255',
             'details' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'phone' => 'required|string|max:255|min:10',
-            'avatar_image' => 'image|max:512|nullable',
-            'new_password' => 'nullable|confirmed'
+            'avatar_image' => 'image|max:2024',
         ];
     }
 }

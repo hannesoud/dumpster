@@ -20,8 +20,6 @@ class Company extends Model
         'phone',
         'status',
         'web_site',
-        'email',
-        'password',
         'user_id',
         'reason',
     ];

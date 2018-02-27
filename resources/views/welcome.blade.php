@@ -40,7 +40,6 @@
                     <li class="active"><a href="{{ url('/') }}">Home</a></li>
                     @unless (Auth::guest())
                         <li><a href="{{ url('/companies') }}">Companies</a></li>
-                        <li><a href="{{ url('/containers') }}">Containers</a></li>
                     @endunless
                 </ul>
 
@@ -57,7 +56,7 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                aria-expanded="false">
-                                {{ Auth::user()->name }} <span class="caret"></span>
+                                {{ Auth::user()->first_name }} <span class="caret"></span>
                             </a>
 
                             <ul class="dropdown-menu" role="menu">

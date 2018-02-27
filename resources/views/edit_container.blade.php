@@ -69,11 +69,14 @@
 
                             <div class="form-group{{ $errors->has('weight') ? ' has-error' : '' }}">
                                 <label for="weight" class="col-md-4 control-label">Weight</label>
-
                                 <div class="col-md-8">
-                                    <input id="weight" type="text" class="form-control" name="weight"
-                                           value="{!! $container->weight !!}" required>
-
+                                    <div class="input-group">
+                                        <input id="weight" type="number" step="1" class="form-control" name="weight"
+                                               value="{!! $container->weight !!}" required min="1">
+                                        <div class="input-group-addon">
+                                            <span class="input-group-text">kg</span>
+                                        </div>
+                                    </div>
                                     @if ($errors->has('weight'))
                                         <span class="help-block"><strong>{{ $errors->first('weight') }}</strong></span>
                                     @endif

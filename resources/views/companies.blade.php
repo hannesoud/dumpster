@@ -10,12 +10,16 @@
                     <div class="panel-heading">Companies</div>
 
                     <div class="panel-body">
-
                         <ul class="nav nav-tabs">
                             @forelse($companies as $company)
 
                                 @if (session('active_company_id'))
                                     <li @if(session('active_company_id') == $company->id) class="active" @endif>
+                                        <a data-toggle="tab"
+                                           href="#company_{!! $loop->index !!}">{!! $company->name !!}</a>
+                                    </li>
+                                @elseif( ! empty($active_company_id) )
+                                    <li @if($active_company_id == $company->id) class="active" @endif>
                                         <a data-toggle="tab"
                                            href="#company_{!! $loop->index !!}">{!! $company->name !!}</a>
                                     </li>
@@ -35,11 +39,11 @@
                                 <div id="company_{!! $loop->index !!}"
                                      class="tab-pane fade
                                     @if (session('active_company_id'))
-                                        @if(session('active_company_id') == $company->id)
+                                     @if(session('active_company_id') == $company->id)
                                              in active
                                         @endif
                                      @else
-                                        @if($loop->first) in active @endif
+                                     @if($loop->first) in active @endif
                                      @endif">
 
                                     <div class="container-fluid">
@@ -50,7 +54,8 @@
                                         <div class="row m-t-sm">
                                         <span class="col-md-8 col-md-offset-4">
                                             @if($company->avatar_id)
-                                                <img src="{{asset('/uploads/images/'.$company->avatar_image)}}"/>
+                                                <img src="{{asset('/uploads/images/'.$company->avatar_image)}}"
+                                                     class="img-responsive"/>
                                             @else
                                                 <i class="text-info">Please add avatar image for your company.</i>
                                             @endif
@@ -79,6 +84,10 @@
                                         </div>
                                         <div class="row m-t-sm">
                                             <div class="col-md-12 text-right">
+                                                <a class="btn btn-info"
+                                                   href="{{url('/containers/'.$company->id)}}">
+                                                    <i class="glyphicon glyphicon-eye-open"
+                                                       style="margin-right:10px;"></i>Show Containers</a>
                                                 <a class="btn btn-warning"
                                                    href="{{url('/remove_company/'.$company->id)}}">
                                                     <i class="glyphicon glyphicon-trash"

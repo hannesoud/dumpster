@@ -5,11 +5,12 @@ namespace App\Http\Controllers;
 use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Auth;
 
 use Matriphe\Imageupload\Imageupload;
 use Intervention\Image\ImageManager;
-use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\Hash;
 use App\Company;
@@ -109,11 +110,18 @@ class HomeController extends Controller
 
     }
 
-    public function companies()
+    public function companies(Request $request)
     {
         $user_id = Auth::id();
+
         $cur_companies = Company::where('user_id', $user_id)->get();
-        return view('companies')->with('companies', $cur_companies);
+
+        if ($request->has('active_company')) {
+            $active_company_id = $request->input('active_company');
+            return view('companies')->with('companies', $cur_companies)->with('active_company_id', $active_company_id);
+        } else {
+            return view('companies')->with('companies', $cur_companies);
+        }
     }
 
     public function showCreateCompanyPage()
@@ -121,7 +129,7 @@ class HomeController extends Controller
         return view('add_company');
     }
 
-    public function submitCreateCompany(StoreCompanyPost $request)
+    public function submitCreateCompany(Request $request)
     {
         $user_id = Auth::id();
 
@@ -134,16 +142,12 @@ class HomeController extends Controller
 
             if ($upload_result) {
                 $new_file_name = $upload_result['filename'];
-                $c_image = CompanyImage::create(['filename' => $new_file_name, 'user_id'=>$user_id]);
+                $c_image = CompanyImage::create(['filename' => $new_file_name, 'user_id' => $user_id]);
                 $c_image_id = $c_image->id;
             }
         }
 
         $data = $request->all();
-
-        $password = $data['password'];
-        $encrypted_password = bcrypt($password);
-        $data['password'] = $encrypted_password;
         $data = array_add($data, 'status', Company::COMPANY_STATUS_REVIEW);
 
         $company_code = mt_rand(10000000, 99999999);
@@ -173,7 +177,7 @@ class HomeController extends Controller
         return view('edit_company')->with('company', $company);
     }
 
-    public function submitEditCompany(UpdateCompanyPost $request)
+    public function submitEditCompany(Request $request)
     {
         $user_id = Auth::id();
         $data = $request->all();
@@ -201,16 +205,10 @@ class HomeController extends Controller
 
             if ($upload_result) {
                 $new_file_name = $upload_result['filename'];
-                $c_image = CompanyImage::create(['filename' => $new_file_name, 'user_id'=>$user_id]);
+                $c_image = CompanyImage::create(['filename' => $new_file_name, 'user_id' => $user_id]);
                 $c_image_id = $c_image->id;
                 $data = array_add($data, 'avatar_id', $c_image_id);
             }
-        }
-
-        if ($data['new_password']) {
-            $password = $data['new_password'];
-            $encrypted_password = bcrypt($password);
-            $data['password'] = $encrypted_password;
         }
 
         $updated_result = $company->update($data);
@@ -248,23 +246,17 @@ class HomeController extends Controller
 
 
     /*Containers*/
-    public function showContainersPage()
+    public function showContainersPage($company_id)
     {
         $user_id = Auth::id();
-        $cur_companies = Company::where('user_id', $user_id)->get();
-        $cp_containers = [];
-        foreach ($cur_companies as $company) {
-            $company_id = $company->id;
-            $containers = Container::where('company_id', $company_id)->get();
-            if ($containers) {
-                $cp_con = [];
-                $cp_con = array_add($cp_con, 'company_name', $company->name);
-                $cp_con = array_add($cp_con, 'company_id', $company_id);
-                $cp_con = array_add($cp_con, 'containers', $containers);
-                array_push($cp_containers, $cp_con);
-            }
+        $company = Company::find($company_id);
+        if (!$company) {
+            return redirect()->route('companies')->with('error', 'Can not find this company.');
         }
-        return view('containers')->with('cp_containers', $cp_containers);
+
+        $containers = Container::where('company_id', $company_id)->get();
+
+        return view('containers')->with('containers', $containers)->with('company_id', $company_id)->with('company_name', $company->name);
     }
 
     public function showAddContainerPage($company_id)
@@ -279,7 +271,7 @@ class HomeController extends Controller
         }
     }
 
-    public function addContainerSubmit(StoreContainerPost $request)
+    public function addContainerSubmit(Request $request)
     {
         $user_id = Auth::id();
 
@@ -293,11 +285,10 @@ class HomeController extends Controller
 
             if ($upload_result) {
                 $new_file_name = $upload_result['filename'];
-                $c_image = CompanyImage::create(['filename' => $new_file_name, 'user_id'=>$user_id]);
+                $c_image = CompanyImage::create(['filename' => $new_file_name, 'user_id' => $user_id]);
                 $ct_image_id = $c_image->id;
             }
         }
-
 
         $data = $request->except('token');
         $data = array_add($data, 'image_id', $ct_image_id);
@@ -309,7 +300,7 @@ class HomeController extends Controller
 
         if ($new_container) {
             //status, company_code
-            return Redirect()->route('containers')->with('active_company_id', $company_id);
+            return redirect()->to('/containers/' . $company_id);
         } else {
             return Redirect()->back();
         }
@@ -327,7 +318,7 @@ class HomeController extends Controller
         }
     }
 
-    public function editContainerSubmit(UpdateContainerPost $request)
+    public function editContainerSubmit(Request $request)
     {
         $user_id = Auth::id();
 
@@ -350,16 +341,15 @@ class HomeController extends Controller
 
             if ($upload_result) {
                 $new_file_name = $upload_result['filename'];
-                $c_image = CompanyImage::create(['filename' => $new_file_name, 'user_id'=>$user_id]);
+                $c_image = CompanyImage::create(['filename' => $new_file_name, 'user_id' => $user_id]);
                 $ct_image_id = $c_image->id;
                 $data = array_add($data, 'image_id', $ct_image_id);
             }
         }
 
 
-
         $container->update($data);
-        return redirect()->route('containers')->with('active_company_id', $company_id);
+        return redirect()->to('/containers/' . $company_id);
     }
 
     public function removeContainers($container_id)
@@ -384,7 +374,7 @@ class HomeController extends Controller
     public function removeContainer($company_id, $container_id)
     {
         $this->removeContainers($container_id);
-        return redirect()->route('containers')->with('active_company_id', $company_id);
+        return redirect()->to('/containers/' . $company_id);
     }
 
     public function showContainer($company_id, $container_id)
@@ -395,7 +385,7 @@ class HomeController extends Controller
             $container->update();
         }
 
-        return redirect()->route('containers')->with('active_company_id', $company_id);
+        return redirect()->to('/containers/' . $company_id);
     }
 
     public function hideContainer($company_id, $container_id)
@@ -406,7 +396,7 @@ class HomeController extends Controller
             $container->update();
         }
 
-        return redirect()->route('containers')->with('active_company_id', $company_id);
+        return redirect()->to('/containers/' . $company_id);
     }
 
 }

@@ -70,12 +70,18 @@
                                 <label for="weight" class="col-md-4 control-label">Weight</label>
 
                                 <div class="col-md-8">
-                                    <input id="weight" type="text" class="form-control" name="weight"
-                                           value="{{ old('weight') }}" required>
+                                    <div class="input-group">
+                                        <input id="weight" type="number" step="1" class="form-control" name="weight" min="1"
+                                               value="{{ old('weight') }}" required>
+                                        <div class="input-group-addon">
+                                            <span class="input-group-text">kg</span>
+                                        </div>
+                                    </div>
 
                                     @if ($errors->has('weight'))
                                         <span class="help-block"><strong>{{ $errors->first('weight') }}</strong></span>
                                     @endif
+
                                 </div>
                             </div>
 
@@ -85,7 +91,7 @@
                                 <div class="col-md-8">
                                     <input id="image" type="file" class="form-control"
                                            name="image" required>
-                                    <i class="text-info">Please choose image with less size of 512KB.</i>
+                                    <!--i class="text-info">Please choose image with less size of 512KB.</i-->
                                     @if ($errors->has('image'))
                                         <span class="help-block"><strong>{{ $errors->first('image') }}</strong></span>
                                     @endif

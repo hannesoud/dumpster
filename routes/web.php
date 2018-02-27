@@ -36,7 +36,7 @@ Route::get('/edit_company/{company_id}', 'HomeController@showEditCompanyPage');
 Route::post('/edit_company_submit', 'HomeController@submitEditCompany');
 Route::get('/remove_company/{company_id}', 'HomeController@removeCompany');
 
-Route::get('/containers', 'HomeController@showContainersPage')->name('containers');
+Route::get('/containers/{company_id}', 'HomeController@showContainersPage');
 Route::get('/add_container/{container_id}', 'HomeController@showAddContainerPage');
 Route::post('/add_container_submit', 'HomeController@addContainerSubmit');
 Route::get('/edit_container/{company_id}/{container_id}', 'HomeController@showEditContainerPage');

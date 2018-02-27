@@ -28,8 +28,8 @@ class StoreContainerPost extends FormRequest
             'details' => 'required|string|max:255',
             'price' => 'required|numeric',
             'capacity' => 'required|string|max:255',
-            'weight' => 'required|string|max:255',
-            'image' => 'required|image|max:512'
+            'weight' => 'required|integer|min:1',
+            'image' => 'required|image|max:2024'
         ];
     }
 }

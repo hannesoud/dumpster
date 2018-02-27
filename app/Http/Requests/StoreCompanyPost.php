@@ -26,14 +26,12 @@ class StoreCompanyPost extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'web_site' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:companies',
+            'web_site' => 'nullable|url|max:255',
             'license_number' => 'required|string|max:255',
             'details' => 'required|string|max:255',
             'address' => 'required|string|max:255',
             'phone' => 'required|string|max:255|min:10',
-            'password' => 'required|string|min:6|confirmed',
-            'avatar_image' => 'required|image|max:512'
+            'avatar_image' => 'required|image|max:2024',
         ];
     }
 }
