@@ -86,7 +86,7 @@
                                     <input id="phone" type="tel" class="form-control" name="phone"
                                            value="{{ $company->phone }}" pattern="\d{3}[\-]\d{3}[\-]\d{4}"
                                            title="US based Phone number in the format of : xxx-xxx-xxxx" required>
-
+                                    <sub><i>Please input US based Phone number in the format of : xxx-xxx-xxxx</i></sub>
                                     @if ($errors->has('phone'))
                                         <span class="help-block"><strong>{{ $errors->first('phone') }}</strong></span>
                                     @endif
