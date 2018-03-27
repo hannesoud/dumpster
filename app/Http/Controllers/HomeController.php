@@ -22,8 +22,10 @@ use App\Http\Requests\UpdateProfileRequest;
 use App\Http\Requests\UpdatePasswordRequest;
 use App\CompanyImage;
 use App\Container;
+use App\CompanyContainer;
 use League\Flysystem\File;
 use Illuminate\Support\Facades\Storage;
+
 
 
 class HomeController extends Controller
@@ -258,7 +260,7 @@ class HomeController extends Controller
             return redirect()->route('companies')->with('error', 'Can not find this company.');
         }
 
-        $containers = Container::where('company_id', $company_id)->get();
+        $containers = CompanyContainer::where('company_id', $company_id)->get();
 
         return view('containers')->with('containers', $containers)->with('company_id', $company_id)->with('company_name', $company->name);
     }
@@ -401,6 +403,106 @@ class HomeController extends Controller
         }
 
         return redirect()->to('/containers/' . $company_id);
+    }
+
+    /*Container Overview Feateures*/
+    public function showCompanyContainers($company_id)
+    {
+        $user_id = Auth::id();
+        $company = Company::find($company_id);
+        if (!$company) {
+            return redirect()->route('companies')->with('error', 'Can not find this company.');
+        }
+
+        $company_containers = CompanyContainer::where('company_id', $company_id)->get();
+
+        return view('company_containers')->with('company_containers', $company_containers)->with('company_id', $company_id)->with('company_name', $company->name);
+    }
+
+    public function showAddCompanyContainersPage($company_id)
+    {
+        $user_id = Auth::id();
+        $company = Company::find($company_id);
+        if ($company) {
+            $company_name = $company->name;
+            $containers = Container::where('status', Container::CONTAINER_STATUS_ACTIVE)->get();
+            return view('add_company_container')->with('company_id', $company_id)->with('company_name', $company_name)->with('containers', $containers);
+        } else {
+            return redirect()->route('companies')->with('error', 'Can not find this company.');
+        }
+    }
+
+    public function addCompanyContainerSubmit(Request $request)
+    {
+        $user_id = Auth::id();
+
+        $data = $request->except('token');
+
+        $company_id = $data['company_id'];
+        $container_id = $data['container_id'];
+
+        $container = Container::find($container_id);
+        if(!$container)
+        {
+            return Redirect()->back()->With('error', 'Can not find the Container');
+        }
+
+        $price = $container->price;
+
+        $data = array_add($data, 'price', $price);
+
+        $new_company_container = CompanyContainer::create($data);
+
+        if ($new_company_container) {
+            return redirect()->to('/show_company_containers/' . $company_id);
+        } else {
+            return Redirect()->back();
+        }
+    }
+
+    public function showEditCompanyContainerPage($company_container_id)
+    {
+        $company_container = CompanyContainer::find($company_container_id);
+
+        $company_id = $company_container->company_id;
+        $company = Company::find($company_id);
+
+        if ($company && $company_container) {
+            $company_name = $company->name;
+            return view('edit_company_container')->with('company_id', $company_id)->with('company_name', $company_name)->with('company_container', $company_container);
+        } else {
+            if(!$company){
+                return redirect()->route('show_company_containers')->with('error', 'Can not find this company.');
+            } else {
+                return redirect()->route('show_company_containers')->with('error', 'Can not find this container in the Company.');
+            }
+        }
+    }
+
+    public function editCompanyContainerSubmit(Request $request)
+    {
+        $user_id = Auth::id();
+
+        $data = $request->except('token');
+
+        $company_container_id = $data['company_container_id'];
+        $company_container = CompanyContainer::find($company_container_id);
+
+        $company_id = $company_container->company_id;
+
+        $company_container->update($data);
+
+        return redirect()->to('/show_company_containers/' . $company_id);
+    }
+
+    public function removeCompanyContainer($company_container_id)
+    {
+        $company_container = CompanyContainer::find($company_container_id);
+        $company_id = $company_container->company_id;
+        if($company_container){
+            $company_container->delete();
+        }
+        return redirect()->to('/show_company_containers/' . $company_id);
     }
 
 }

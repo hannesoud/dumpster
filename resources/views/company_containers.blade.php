@@ -1,13 +1,13 @@
 @extends('layouts.app')
 @section('title')
-    Containers
+    Company Containers
 @endsection
 @section('content')
     <div class="container">
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <div class="panel panel-default">
-                    <div class="panel-heading">Containers</div>
+                    <div class="panel-heading">Company Containers</div>
                     <div class="panel-body">
                         @if (session('error'))
                             <div class="alert alert-danger">
@@ -30,49 +30,41 @@
                                         <th>Quantity</th>
                                         <th>Weight</th>
                                         <th>Price</th>
-                                        <th>Status</th>
                                         <th>Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    @forelse($containers as $container)
+                                    @forelse($company_containers as $company_container)
                                         <tr>
-                                            <td>{!! $container->name !!}</td>
+                                            <td>{!! $company_container->name !!}</td>
                                             <td class="text-center">
+
                                                 @if($_SERVER['HTTP_HOST'] == 'localhost')
                                                     <img class="tb_ct_img"
-                                                         src="{{ asset('/uploads/images/'.$container->image) }}"/>
+                                                         src="{{ asset('/uploads/images/'.$company_container->image) }}"/>
                                                 @else
                                                     <img class="tb_ct_img"
-                                                         src="{{ asset('/public/uploads/images/'.$container->image) }}"/>
+                                                         src="{{ asset('/public/uploads/images/'.$company_container->image) }}"/>
                                                 @endif
+
+
                                             </td>
-                                            <td>{!! $container->capacity !!}</td>
-                                            <td>{!! $container->quantity !!}</td>
-                                            <td>{!! $container->weight !!}</td>
-                                            <td>{!! $container->price !!}</td>
-                                            <td>{!! $container->status_str !!}</td>
+                                            <td>{!! $company_container->capacity !!}</td>
+                                            <td>{!! $company_container->quantity !!}</td>
+                                            <td>{!! $company_container->weight !!}</td>
+                                            <td>{!! $company_container->price !!}</td>
                                             <td>
-                                                <a href="{{url('/edit_container/'.$company_id.'/'.$container->id)}}"
+                                                <a href="{{url('/edit_company_container/'.$company_container->id)}}"
                                                    title="Edit"><i
                                                             class="glyphicon glyphicon-edit"></i></a>
-                                                <a href="{{url('/remove_container/'.$company_id.'/'.$container->id)}}"
+                                                <a href="{{url('/remove_company_container/'.$company_container->id)}}"
                                                    title="Remove"><i
                                                             class="glyphicon glyphicon-trash"></i></a>
-                                                @if($container->status == \App\Container::CONTAINER_STATUS_ACTIVE)
-                                                    <a href="{{url('/hide_container/'.$company_id.'/'.$container->id)}}"
-                                                       title="Hide"><i
-                                                                class="glyphicon glyphicon-eye-close"></i></a>
-                                                @else
-                                                    <a href="{{url('/show_container/'.$company_id.'/'.$container->id)}}"
-                                                       title="Show"><i
-                                                                class="glyphicon glyphicon-eye-open"></i></a>
-                                                @endif
                                             </td>
                                         </tr>
                                     @empty
                                         <tr>
-                                            <td colspan="100" class="text-center">No Containers</td>
+                                            <td colspan="100" class="text-center">No Containers Added</td>
                                         </tr>
                                     @endforelse
                                     </tbody>
@@ -80,11 +72,12 @@
                             </div>
 
                             <div class="row m-t-sm text-right">
-                                <a href="{{url('/add_container/'.$company_id)}}"
+                                <a href="{{url('/add_container_to_company/'.$company_id)}}"
                                    class="btn btn-primary">Add
                                     Container</a>
                                 <a href="{{url('/companies?active_company='.$company_id)}}"
                                    class="btn btn-warning">Back to Company</a>
+
                             </div>
                         </div>
                     </div>

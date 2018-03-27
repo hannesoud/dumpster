@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\CompanyImage;
 
 class Container extends Model
 {
@@ -10,7 +11,7 @@ class Container extends Model
     protected $table = 'containers';
 
     protected $fillable = [
-        'name',  'image_id',  'price', 'capacity', 'details', 'status', 'company_id', 'quantity', 'weight',
+        'name',  'image_id',  'price', 'capacity', 'details', 'status', 'weight'
     ];
 
     const CREATED_AT = 'added';

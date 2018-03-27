@@ -36,6 +36,7 @@ Route::get('/edit_company/{company_id}', 'HomeController@showEditCompanyPage');
 Route::post('/edit_company_submit', 'HomeController@submitEditCompany');
 Route::get('/remove_company/{company_id}', 'HomeController@removeCompany');
 
+/*admin container*/
 Route::get('/containers/{company_id}', 'HomeController@showContainersPage');
 Route::get('/add_container/{container_id}', 'HomeController@showAddContainerPage');
 Route::post('/add_container_submit', 'HomeController@addContainerSubmit');
@@ -44,3 +45,12 @@ Route::post('/edit_container_submit', 'HomeController@editContainerSubmit');
 Route::get('/remove_container/{company_id}/{container_id}', 'HomeController@removeContainer');
 Route::get('/show_container/{company_id}/{container_id}', 'HomeController@showContainer');
 Route::get('/hide_container/{company_id}/{container_id}', 'HomeController@hideContainer');
+
+/*Overview containers*/
+
+Route::get('/show_company_containers/{company_id}', 'HomeController@showCompanyContainers');
+Route::get('/add_container_to_company/{company_id}', 'HomeController@showAddCompanyContainersPage');
+Route::post('/add_company_container_submit', 'HomeController@addCompanyContainerSubmit');
+Route::get('/edit_company_container/{company_container_id}', 'HomeController@showEditCompanyContainerPage');
+Route::post('/edit_company_container_submit', 'HomeController@editCompanyContainerSubmit');
+Route::get('/remove_company_container/{company_container_id}', 'HomeController@removeCompanyContainer');

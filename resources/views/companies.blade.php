@@ -54,8 +54,15 @@
                                         <div class="row m-t-sm">
                                         <span class="col-md-8 col-md-offset-4">
                                             @if($company->avatar_id)
-                                                <img src="{{asset('/uploads/images/'.$company->avatar_image)}}"
-                                                     class="img-responsive"/>
+
+                                                @if($_SERVER['HTTP_HOST'] == 'localhost')
+                                                    <img src="{{asset('/uploads/images/'.$company->avatar_image)}}"
+                                                         class="img-responsive"/>
+                                                @else
+                                                    <img src="{{asset('/public/uploads/images/'.$company->avatar_image)}}"
+                                                         class="img-responsive"/>
+                                                @endif
+
                                             @else
                                                 <i class="text-info">Please add avatar image for your company.</i>
                                             @endif
@@ -85,7 +92,7 @@
                                         <div class="row m-t-sm">
                                             <div class="col-md-12 text-right">
                                                 <a class="btn btn-info"
-                                                   href="{{url('/containers/'.$company->id)}}">
+                                                   href="{{url('/show_company_containers/'.$company->id)}}">
                                                     <i class="glyphicon glyphicon-eye-open"
                                                        style="margin-right:10px;"></i>Show Containers</a>
                                                 <a class="btn btn-warning"
