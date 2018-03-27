@@ -15,6 +15,10 @@
                             <div class="alert alert-success">
                                 {{ session('success') }}
                             </div>
+                        @elseif(session('error'))
+                            <div class="alert alert-warning">
+                                {{ session('error') }}
+                            </div>
                         @endif
                         <form class="form-horizontal" method="POST" action="{{ route('login') }}">
                             {{ csrf_field() }}

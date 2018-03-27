@@ -67,14 +67,28 @@
                                 </div>
                             </div>
 
+                            <div class="form-group{{ $errors->has('quantity') ? ' has-error' : '' }}">
+                                <label for="quantity" class="col-md-4 control-label">Quantity</label>
+
+                                <div class="col-md-8">
+                                    <input id="quantity" type="number" step="1" class="form-control" name="quantity"
+                                           min="1" value="{!! $container->quantity !!}" required>
+
+                                    @if ($errors->has('quantity'))
+                                        <span class="help-block"><strong>{{ $errors->first('quantity') }}</strong></span>
+                                    @endif
+
+                                </div>
+                            </div>
+
                             <div class="form-group{{ $errors->has('weight') ? ' has-error' : '' }}">
-                                <label for="weight" class="col-md-4 control-label">Weight</label>
+                                <label for="weight" class="col-md-4 control-label">Weight Limit</label>
                                 <div class="col-md-8">
                                     <div class="input-group">
-                                        <input id="weight" type="number" step="1" class="form-control" name="weight"
+                                        <input id="weight" type="number" step="0.1" class="form-control" name="weight"
                                                value="{!! $container->weight !!}" required min="1">
                                         <div class="input-group-addon">
-                                            <span class="input-group-text">kg</span>
+                                            <span class="input-group-text">ton</span>
                                         </div>
                                     </div>
                                     @if ($errors->has('weight'))

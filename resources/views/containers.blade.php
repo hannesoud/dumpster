@@ -27,6 +27,7 @@
                                         <th>Name</th>
                                         <th>Image</th>
                                         <th>Capacity</th>
+                                        <th>Quantity</th>
                                         <th>Weight</th>
                                         <th>Price</th>
                                         <th>Status</th>
@@ -42,6 +43,7 @@
                                                      src="{{ asset('/uploads/images/'.$container->image) }}"/>
                                             </td>
                                             <td>{!! $container->capacity !!}</td>
+                                            <td>{!! $container->quantity !!}</td>
                                             <td>{!! $container->weight !!}</td>
                                             <td>{!! $container->price !!}</td>
                                             <td>{!! $container->status_str !!}</td>

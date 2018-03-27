@@ -60,7 +60,9 @@ class HomeController extends Controller
         $user_id = Auth::id();
         $user = User::find($user_id);
 
-        if (!(Hash::check($request->get('current-password'), Auth::user()->password))) {
+        $encrypted_password = md5($request->get('current-password'));
+
+        if ($encrypted_password != Auth::user()->password) {
             // The passwords matches
             return redirect()->back()->with("error", "Your current password does not matches with the password you provided. Please try again.");
         }
@@ -85,7 +87,9 @@ class HomeController extends Controller
     public function changePassword(UpdatePasswordRequest $request)
     {
 
-        if (!(Hash::check($request->get('current-password'), Auth::user()->password))) {
+        $encrypted_password = md5($request->get('current-password'));
+
+        if ($encrypted_password != Auth::user()->password) {
             // The passwords matches
             return redirect()->back()->with("error", "Your current password does not matches with the password you provided. Please try again.");
         }
@@ -101,7 +105,7 @@ class HomeController extends Controller
 
         //Change Password
         $user = Auth::user();
-        $user->password = bcrypt($request->get('new-password'));
+        $user->password = md5($request->get('new-password'));
         $user->save();
 
         Auth::logout();
