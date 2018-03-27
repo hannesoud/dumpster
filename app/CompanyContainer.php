@@ -39,16 +39,6 @@ class CompanyContainer extends Model
         }
     }
 
-    public function getPriceAttribute()
-    {
-        $container_id = $this->container_id;
-        $container = Container::find($container_id);
-        if($container)
-        {
-            return $container->price;
-        }
-    }
-
     public function getCapacityAttribute()
     {
         $container_id = $this->container_id;

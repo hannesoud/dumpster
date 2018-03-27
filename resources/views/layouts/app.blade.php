@@ -12,9 +12,19 @@
 
     <!-- Styles -->
     <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-    <link href="{{asset('css/app.css')}}" rel="stylesheet" type="text/css">
-    <link href="{{asset('css/custom.css')}}" rel="stylesheet" type="text/css">
+    @if($_SERVER['HTTP_HOST'] == 'localhost')
+        <link href="{{asset('css/app.css')}}" rel="stylesheet" type="text/css">
+    @else
+        <link href="{{asset('public/css/app.css')}}" rel="stylesheet" type="text/css">
+    @endif
 
+    @if($_SERVER['HTTP_HOST'] == 'localhost')
+        <link href="{{asset('css/custom.css')}}" rel="stylesheet" type="text/css">
+    @else
+        <link href="{{asset('public/css/custom.css')}}" rel="stylesheet" type="text/css">
+    @endif
+
+    @yield('css')
 </head>
 <body>
 <div id="app">
@@ -33,7 +43,11 @@
 
                 <!-- Branding Image -->
                 <a class="navbar-brand" href="{{ url('/') }}">
-                    <img src="{{asset('img/logo.png')}}" class="img_logo">
+                    @if($_SERVER['HTTP_HOST'] == 'localhost')
+                        <img src="{{asset('img/logo.png')}}" class="img_logo">
+                    @else
+                        <img src="{{asset('public/img/logo.png')}}" class="img_logo">
+                    @endif
                 </a>
             </div>
 
@@ -116,6 +130,11 @@
 </footer>
 
 <!-- Scripts -->
-<script src="{{ asset('js/app.js') }}"></script>
+@if($_SERVER['HTTP_HOST'] == 'localhost')
+    <script src="{{ asset('js/app.js') }}"></script>
+@else
+    <script src="{{ asset('public/js/app.js') }}"></script>
+@endif
+@yield('script')
 </body>
 </html>

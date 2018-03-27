@@ -447,10 +447,6 @@ class HomeController extends Controller
             return Redirect()->back()->With('error', 'Can not find the Container');
         }
 
-        $price = $container->price;
-
-        $data = array_add($data, 'price', $price);
-
         $new_company_container = CompanyContainer::create($data);
 
         if ($new_company_container) {

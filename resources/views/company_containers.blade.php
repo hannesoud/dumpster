@@ -2,6 +2,9 @@
 @section('title')
     Company Containers
 @endsection
+@section('css')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+@endsection
 @section('content')
     <div class="container">
         <div class="row">
@@ -58,7 +61,7 @@
                                                    title="Edit"><i
                                                             class="glyphicon glyphicon-edit"></i></a>
                                                 <a href="{{url('/remove_company_container/'.$company_container->id)}}"
-                                                   title="Remove"><i
+                                                   title="Remove" id="remove_cc"><i
                                                             class="glyphicon glyphicon-trash"></i></a>
                                             </td>
                                         </tr>
@@ -85,4 +88,25 @@
             </div>
         </div>
     </div>
+@endsection
+@section('script')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+    <script>
+        $('#remove_cc').click(function (e) {
+            var redirect_url = $(this).attr('href');
+            e.preventDefault();
+            $.confirm({
+                title: 'Confirm',
+                content: ' Removal Container',
+                buttons: {
+                    confirm: function () {
+                        location.href = redirect_url;
+                    },
+                    cancel: function () {
+                        //close
+                    }
+                }
+            });
+        })
+    </script>
 @endsection

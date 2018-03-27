@@ -23,13 +23,33 @@
                                 <div class="col-md-8">
                                     <select id="container_id" name="container_id" required class="form-control">
                                         @forelse($containers as $container)
-                                            <option value="{{$container->id}}">{!! $container->name !!}</option>
+                                            <option value="{{$container->id}}"
+                                                    data-price="{{$container->price}}">{!! $container->name !!}</option>
                                         @empty
                                             <option>-- No Containers to Select --</option>
                                         @endforelse
                                     </select>
                                     @if ($errors->has('name'))
                                         <span class="help-block"><strong>{{ $errors->first('name') }}</strong></span>
+                                    @endif
+                                </div>
+                            </div>
+
+                            <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
+                                <label for="price" class="col-md-4 control-label">Price</label>
+
+                                <div class="col-md-8">
+
+                                    <div class="input-group">
+                                        <input id="price" type="number" step="0.01" class="form-control" name="price"
+                                               value="{{ old('price') }}" required min="0.01">
+                                        <div class="input-group-addon">
+                                            <span class="input-group-text">$</span>
+                                        </div>
+                                    </div>
+
+                                    @if ($errors->has('price'))
+                                        <span class="help-block"><strong>{{ $errors->first('price') }}</strong></span>
                                     @endif
                                 </div>
                             </div>
@@ -53,7 +73,8 @@
                                     <button type="submit" class="btn btn-primary">
                                         Add Container
                                     </button>
-                                    <a href="{{url('/show_company_containers').'/'.$company_id}}" class="btn btn-warning">
+                                    <a href="{{url('/show_company_containers').'/'.$company_id}}"
+                                       class="btn btn-warning">
                                         Cancel
                                     </a>
                                 </div>
@@ -64,4 +85,16 @@
             </div>
         </div>
     </div>
+@endsection
+@section('script')
+    <script>
+        $(document).ready(function(){
+            var first_price = $(this).find('option:selected').data('price');
+            $('#price').val(first_price);
+        });
+        $('#container_id').change(function(){
+            var current_price = $(this).find('option:selected').data('price');
+            $('#price').val(current_price);
+        })
+    </script>
 @endsection

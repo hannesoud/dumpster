@@ -33,7 +33,7 @@
 
                                 <div class="col-md-8">
                                     <input id="price" type="number" step="0.01" class="form-control" name="price"
-                                           value="{!! $company_container->price !!}" disabled>
+                                           value="{!! $company_container->price !!}">
 
                                     @if ($errors->has('price'))
                                         <span class="help-block"><strong>{{ $errors->first('price') }}</strong></span>
