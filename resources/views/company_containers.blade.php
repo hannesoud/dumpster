@@ -31,7 +31,7 @@
                                         <th>Image</th>
                                         <th>Capacity</th>
                                         <th>Quantity</th>
-                                        <th>Weight</th>
+                                        <th>Weight Limit</th>
                                         <th>Price</th>
                                         <th>Actions</th>
                                     </tr>
@@ -54,8 +54,8 @@
                                             </td>
                                             <td>{!! $company_container->capacity !!}</td>
                                             <td>{!! $company_container->quantity !!}</td>
-                                            <td>{!! $company_container->weight !!}</td>
-                                            <td>{!! $company_container->price !!}</td>
+                                            <td>{!! $company_container->weight !!} ton</td>
+                                            <td>$ {!! $company_container->price !!}</td>
                                             <td>
                                                 <a href="{{url('/edit_company_container/'.$company_container->id)}}"
                                                    title="Edit"><i
