@@ -27,7 +27,6 @@ use League\Flysystem\File;
 use Illuminate\Support\Facades\Storage;
 
 
-
 class HomeController extends Controller
 {
     /**
@@ -75,9 +74,11 @@ class HomeController extends Controller
         $user->update($data);
         $user->save();
 
-        Auth::logout();
+        //Auth::logout();
 
-        return redirect()->route('login');
+        //return redirect()->route('login');
+
+        return redirect()->back()->with("success", "Your profile info is updated");
 
     }
 
@@ -229,19 +230,23 @@ class HomeController extends Controller
         if ($company) {
             //remove container's image too
             $company_image = CompanyImage::find($company->avatar_id);
+            if ($company_image) {
+                $file_url = public_path('uploads/images/');
+                $file_url .= $company_image->filename;
+                if (file_exists($file_url)) {
+                    unlink($file_url);
+                }
 
-            $file_url = public_path('uploads/images/');
-            $file_url .= $company_image->filename;
-            if (file_exists($file_url)) {
-                unlink($file_url);
+                $company_image->delete();
             }
 
-            $company_image->delete();
 
-            $containers = Container::where('company_id', $company_id)->get();
-            foreach ($containers as $container) {
-                if ($container) {
-                    $this->removeContainers($container->id);
+            $ccontainers = CompanyContainer::where('company_id', $company_id)->get();
+            if (count($ccontainers) > 0) {
+                foreach ($ccontainers as $ccontainer) {
+                    if ($ccontainer) {
+                        $this->removeCompanyContainer($ccontainer->id);
+                    }
                 }
             }
             $company->delete();
@@ -442,8 +447,7 @@ class HomeController extends Controller
         $container_id = $data['container_id'];
 
         $container = Container::find($container_id);
-        if(!$container)
-        {
+        if (!$container) {
             return Redirect()->back()->With('error', 'Can not find the Container');
         }
 
@@ -467,7 +471,7 @@ class HomeController extends Controller
             $company_name = $company->name;
             return view('edit_company_container')->with('company_id', $company_id)->with('company_name', $company_name)->with('company_container', $company_container);
         } else {
-            if(!$company){
+            if (!$company) {
                 return redirect()->route('show_company_containers')->with('error', 'Can not find this company.');
             } else {
                 return redirect()->route('show_company_containers')->with('error', 'Can not find this container in the Company.');
@@ -495,7 +499,7 @@ class HomeController extends Controller
     {
         $company_container = CompanyContainer::find($company_container_id);
         $company_id = $company_container->company_id;
-        if($company_container){
+        if ($company_container) {
             $company_container->delete();
         }
         return redirect()->to('/show_company_containers/' . $company_id);

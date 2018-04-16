@@ -61,7 +61,7 @@
                                                    title="Edit"><i
                                                             class="glyphicon glyphicon-edit"></i></a>
                                                 <a href="{{url('/remove_company_container/'.$company_container->id)}}"
-                                                   title="Remove" id="remove_cc"><i
+                                                   title="Remove" class="remove_cc"><i
                                                             class="glyphicon glyphicon-trash"></i></a>
                                             </td>
                                         </tr>
@@ -92,7 +92,7 @@
 @section('script')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
     <script>
-        $('#remove_cc').click(function (e) {
+        $('.remove_cc').click(function (e) {
             var redirect_url = $(this).attr('href');
             e.preventDefault();
             $.confirm({
