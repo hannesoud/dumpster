@@ -17,11 +17,14 @@ class Company extends Model
         'license_number',
         'description',
         'address',
+        'latitude',
+        'longitude',
         'phone',
         'status',
         'web_site',
         'user_id',
         'reason',
+        'email'
     ];
 
     protected $hidden = [

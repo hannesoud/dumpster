@@ -11,7 +11,7 @@ class Container extends Model
     protected $table = 'containers';
 
     protected $fillable = [
-        'name',  'image_id',  'price', 'capacity', 'details', 'status', 'weight'
+        'name',  'image_id',  'price', 'capacity', 'details', 'status', 'weight', 'quantity', 'company_id'
     ];
 
     const CREATED_AT = 'added';

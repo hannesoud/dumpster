@@ -101,6 +101,6 @@ return [
    /*
     * Table name to hold the image data in database. Will be used in Model.
     */
-    'table' => 'image_uploads',
+    'table' => 'images',
 
 ];

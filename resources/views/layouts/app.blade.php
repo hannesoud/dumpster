@@ -55,9 +55,9 @@
 
                 <ul class="nav navbar-nav">
 
-                    <!-- Left Side Of Navbar -->&nbsp;
-                    <li class="active"><a href="{{ url('/') }}">Home</a></li>
                     @unless (Auth::guest())
+                    <!-- Left Side Of Navbar -->&nbsp;
+                        <li class="active"><a href="{{ url('/') }}">Home</a></li>
                         <li><a href="{{ url('/companies') }}">Companies</a></li>
                     @endunless
                 </ul>

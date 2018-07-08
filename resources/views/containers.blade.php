@@ -39,12 +39,14 @@
                                         <tr>
                                             <td>{!! $container->name !!}</td>
                                             <td class="text-center">
-                                                @if($_SERVER['HTTP_HOST'] == 'localhost')
-                                                    <img class="tb_ct_img"
-                                                         src="{{ asset('/uploads/images/'.$container->image) }}"/>
-                                                @else
-                                                    <img class="tb_ct_img"
-                                                         src="{{ asset('/public/uploads/images/'.$container->image) }}"/>
+                                                @if($container->image)
+                                                    @if($_SERVER['HTTP_HOST'] == 'localhost')
+                                                        <img class="tb_ct_img"
+                                                             src="{{ asset('/uploads/images/'.$container->image) }}"/>
+                                                    @else
+                                                        <img class="tb_ct_img"
+                                                             src="{{ asset('/public/uploads/images/'.$container->image) }}"/>
+                                                    @endif
                                                 @endif
                                             </td>
                                             <td>{!! $container->capacity !!}</td>

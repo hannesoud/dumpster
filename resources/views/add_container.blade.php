@@ -110,13 +110,15 @@
                                     @if ($errors->has('image'))
                                         <span class="help-block"><strong>{{ $errors->first('image') }}</strong></span>
                                     @endif
+                                    <span id="show_error" class="text-danger" style="display:none;">Please choose other file.</span>
+                                    <span class="text-info">Maximum File Size : 4MB </span>
                                 </div>
                             </div>
 
 
                             <div class="form-group">
                                 <div class="col-md-12 text-right">
-                                    <button type="submit" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-primary" id="submit">
                                         Add New Container
                                     </button>
                                 </div>
@@ -127,4 +129,52 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('script')
+    <script>
+
+        $("#image").change(function () {
+            if (fileExtValidate(this)) { // file extension validation function
+                if (fileSizeValidate(this)) { // file size validation function
+                    $('#submit').prop('disabled', false);
+                    $('#show_error').hide();
+                } else {
+                    $('#submit').prop('disabled', true);
+                }
+            } else {
+                $('#submit').prop('disabled', true);
+            }
+        });
+        // function for  validate file extension
+        var validExt = ".png, .gif, .jpeg, .jpg";
+        function fileExtValidate(fdata) {
+            var filePath = fdata.value;
+            var getFileExt = filePath.substring(filePath.lastIndexOf('.') + 1).toLowerCase();
+            var pos = validExt.indexOf(getFileExt);
+            if (pos < 0) {
+                alert("This file is not allowed, please upload valid file.");
+                $('#show_error').show();
+                return false;
+            } else {
+                return true;
+            }
+        }
+        //function for validate file size: 4MB
+        //var maxSize = 4;
+        var maxSize = 1024*1024*4;
+        function fileSizeValidate(fdata) {
+            if (fdata.files && fdata.files[0]) {
+                //var fsize = Math.ceil((fdata.files[0].size / 1024 )/1024);
+                var fsize = fdata.files[0].size;//Math.ceil((fdata.files[0].size / 1024 )/1024);
+                if (fsize > maxSize) {
+                    alert('Maximum file size exceed, This file size is bigger than 4MB.');
+                    $('#show_error').show();
+                    return false;
+                } else {
+                    return true;
+                }
+            }
+        }
+    </script>
 @endsection

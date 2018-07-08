@@ -92,7 +92,7 @@
                                         <div class="row m-t-sm">
                                             <div class="col-md-12 text-right">
                                                 <a class="btn btn-info"
-                                                   href="{{url('/show_company_containers/'.$company->id)}}">
+                                                   href="{{url('/containers/'.$company->id)}}">
                                                     <i class="glyphicon glyphicon-eye-open"
                                                        style="margin-right:10px;"></i>Show Containers</a>
                                                 <a class="btn btn-warning"

@@ -26,6 +26,10 @@ use App\CompanyContainer;
 use League\Flysystem\File;
 use Illuminate\Support\Facades\Storage;
 
+use Stripe\Account;
+use Stripe\Customer;
+use Stripe\Stripe;
+
 
 class HomeController extends Controller
 {
@@ -141,6 +145,67 @@ class HomeController extends Controller
         $user_id = Auth::id();
 
         $c_image_id = null;
+
+        $data = $request->all();
+
+        $company_email = $data['email'];
+        //create company's stripe account
+        Stripe::setApiKey(getenv('STRIPE_API_KEY'));
+
+        //check whether stripe account exists with this email
+        $last_customer = null;
+        $customer_looking_for = null;
+        while (true) {
+            $stripe_customers = Customer::all(array("limit" => 100, "starting_after" => $last_customer));
+            foreach ($stripe_customers->autoPagingIterator() as $stripe_customer) {
+                if ($stripe_customer->email == $company_email) {
+
+                    $customer_looking_for = $stripe_customer;
+                    break 2;
+                }
+
+            }
+            if (!$stripe_customers->has_more) {
+                break;
+            }
+            $last_customer = end($stripe_customers->data);
+        }
+
+        if ($customer_looking_for) {
+
+            $id = $customer_looking_for->id;
+
+        } else {
+            $stripe_account_data = [
+                "type" => "standard",
+                "email" => $company_email,
+                "country" => "us"
+            ];
+
+            $error_occur = false;
+            try {
+                $result = Account::create($stripe_account_data);
+            } catch (\Stripe\Error\InvalidRequest $e) {
+                $body = $e->getJsonBody();
+                $err = $body['error'];
+//                print('Message is:' . $err['message'] . "\n");
+                $error_occur = true;
+                return redirect()->back()->with('error', 'STRIPE ERROR: ' . $err['message']);
+            }
+
+            if (!$error_occur) {
+                $id = $result["id"];
+            }
+        }
+
+        if ($id != "") {
+            $user = User::find($user_id);
+            if ($user) {
+                $user->stripe_account = $id;
+                $user->save();
+            }
+        }
+
         //first, upload image
         if ($request->hasFile('avatar_image')) {
             $img_upload_manager = new ImageManager();
@@ -154,7 +219,6 @@ class HomeController extends Controller
             }
         }
 
-        $data = $request->all();
         $data = array_add($data, 'status', Company::COMPANY_STATUS_REVIEW);
 
         $company_code = mt_rand(10000000, 99999999);
@@ -166,6 +230,7 @@ class HomeController extends Controller
 
         $new_company = Company::create($data);
         $new_company_id = $new_company->id;
+
 
         if ($new_company) {
             //status, company_code
@@ -241,11 +306,11 @@ class HomeController extends Controller
             }
 
 
-            $ccontainers = CompanyContainer::where('company_id', $company_id)->get();
+            $ccontainers = Container::where('company_id', $company_id)->get();
             if (count($ccontainers) > 0) {
                 foreach ($ccontainers as $ccontainer) {
                     if ($ccontainer) {
-                        $this->removeCompanyContainer($ccontainer->id);
+                        $this->removeContainer($ccontainer->id);
                     }
                 }
             }
@@ -265,7 +330,7 @@ class HomeController extends Controller
             return redirect()->route('companies')->with('error', 'Can not find this company.');
         }
 
-        $containers = CompanyContainer::where('company_id', $company_id)->get();
+        $containers = Container::where('company_id', $company_id)->get();
 
         return view('containers')->with('containers', $containers)->with('company_id', $company_id)->with('company_name', $company->name);
     }
@@ -344,7 +409,9 @@ class HomeController extends Controller
 
             //remove old image
             $old_image = CompanyImage::find($container->image_id);
-            $old_image->delete();
+            if ($old_image) {
+                $old_image->delete();
+            }
 
             $img_upload_manager = new ImageManager();
             $img_upload = new Imageupload($img_upload_manager);
