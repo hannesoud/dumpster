@@ -2,6 +2,10 @@
 @section('title')
     Home
 @endsection
+@section('css')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.css">
+
+@endsection
 @section('content')
     <div class="container">
         <div class="row">
@@ -95,7 +99,7 @@
                                                    href="{{url('/containers/'.$company->id)}}">
                                                     <i class="glyphicon glyphicon-eye-open"
                                                        style="margin-right:10px;"></i>Show Containers</a>
-                                                <a class="btn btn-warning"
+                                                <a class="btn btn-warning remove-company"
                                                    href="{{url('/remove_company/'.$company->id)}}">
                                                     <i class="glyphicon glyphicon-trash"
                                                        style="margin-right:10px;"></i>Remove
@@ -138,4 +142,21 @@
             </div>
         </div>
     </div>
+@endsection
+@section('script')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.0/jquery-confirm.min.js"></script>
+    <script type="text/javascript">
+        $('a.remove-company').confirm({
+            title: 'Confirm!',
+            content: 'Are you sure to remove this company?',
+            buttons: {
+                Yes: function(){
+                    location.href = this.$target.attr('href');
+                },
+                No: function(){
+                    return;
+                }
+            }
+        });
+    </script>
 @endsection

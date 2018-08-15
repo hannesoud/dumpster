@@ -15,6 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -26,8 +28,7 @@ Route::get('/profile', 'HomeController@showProfile')->name('profile');
 Route::post('/update_profile', 'HomeController@updateProfileSubmit');
 
 Route::get('/change_password', 'HomeController@showChangePasswordForm');
-Route::post('/changePassword','HomeController@changePassword')->name('changePassword');
-
+Route::post('/changePassword', 'HomeController@changePassword')->name('changePassword');
 
 Route::get('/companies', 'HomeController@companies')->name('companies');
 Route::get('/create_company', 'HomeController@showCreateCompanyPage');

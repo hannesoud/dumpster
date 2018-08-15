@@ -148,63 +148,6 @@ class HomeController extends Controller
 
         $data = $request->all();
 
-        $company_email = $data['email'];
-        //create company's stripe account
-        Stripe::setApiKey(getenv('STRIPE_API_KEY'));
-
-        //check whether stripe account exists with this email
-        $last_customer = null;
-        $customer_looking_for = null;
-        while (true) {
-            $stripe_customers = Customer::all(array("limit" => 100, "starting_after" => $last_customer));
-            foreach ($stripe_customers->autoPagingIterator() as $stripe_customer) {
-                if ($stripe_customer->email == $company_email) {
-
-                    $customer_looking_for = $stripe_customer;
-                    break 2;
-                }
-
-            }
-            if (!$stripe_customers->has_more) {
-                break;
-            }
-            $last_customer = end($stripe_customers->data);
-        }
-
-        if ($customer_looking_for) {
-
-            $id = $customer_looking_for->id;
-
-        } else {
-            $stripe_account_data = [
-                "type" => "standard",
-                "email" => $company_email,
-                "country" => "us"
-            ];
-
-            $error_occur = false;
-            try {
-                $result = Account::create($stripe_account_data);
-            } catch (\Stripe\Error\InvalidRequest $e) {
-                $body = $e->getJsonBody();
-                $err = $body['error'];
-//                print('Message is:' . $err['message'] . "\n");
-                $error_occur = true;
-                return redirect()->back()->with('error', 'STRIPE ERROR: ' . $err['message']);
-            }
-
-            if (!$error_occur) {
-                $id = $result["id"];
-            }
-        }
-
-        if ($id != "") {
-            $user = User::find($user_id);
-            if ($user) {
-                $user->stripe_account = $id;
-                $user->save();
-            }
-        }
 
         //first, upload image
         if ($request->hasFile('avatar_image')) {
@@ -306,11 +249,11 @@ class HomeController extends Controller
             }
 
 
-            $ccontainers = Container::where('company_id', $company_id)->get();
-            if (count($ccontainers) > 0) {
-                foreach ($ccontainers as $ccontainer) {
-                    if ($ccontainer) {
-                        $this->removeContainer($ccontainer->id);
+            $containers = Container::where('company_id', $company_id)->get();
+            if (count($containers) > 0) {
+                foreach ($containers as $container) {
+                    if ($container) {
+                        $this->removeContainer($company_id, $container->id);
                     }
                 }
             }

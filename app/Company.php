@@ -33,10 +33,10 @@ class Company extends Model
 
     const CREATED_AT = 'reg_date';
 
-    const COMPANY_STATUS_REVIEW = 1;
-    const COMPANY_STATUS_ACTIVE = 2;
-    const COMPANY_STATUS_BANNED = 3;
-    const COMPANY_STATUS_PAUSED = 4;
+    const COMPANY_STATUS_REVIEW = 0;
+    const COMPANY_STATUS_ACTIVE = 1;
+    const COMPANY_STATUS_BANNED = 2;
+    const COMPANY_STATUS_PAUSED = 3;
 
     /**
      * Get the user's full name.
@@ -47,16 +47,16 @@ class Company extends Model
     {
         $status_name = '';
         switch ($this->status) {
-            case 1:
+            case 0:
                 $status_name = "REVIEW";
                 break;
-            case 2:
+            case 1:
                 $status_name = "ACTIVE";
                 break;
-            case 3:
+            case 2:
                 $status_name = "BANNED";
                 break;
-            case 4:
+            case 3:
                 $status_name = "PAUSED";
                 break;
             default:
@@ -78,6 +78,4 @@ class Company extends Model
             return $image->filename;
         }
     }
-
-
 }
